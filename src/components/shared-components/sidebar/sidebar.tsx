@@ -1,6 +1,6 @@
-import { FaArchive, FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import type { NavigationPathProps } from "./sidebar.types";
-import { MdImportantDevices, MdLabelImportant } from "react-icons/md";
+import { MdImportantDevices } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { HiArchiveBoxArrowDown } from "react-icons/hi2";
 import { IoTrashBin } from "react-icons/io5";

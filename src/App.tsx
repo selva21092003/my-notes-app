@@ -9,7 +9,7 @@ import Bin from "./pages/bin/bin";
 
 function App() {
   return (
-    <div className="flex">
+    <div className="flex w-screen">
       <Sidebar />
       <main className="flex-1">
         <Navbar />
