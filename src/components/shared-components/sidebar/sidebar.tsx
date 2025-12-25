@@ -1,6 +1,5 @@
 import { FaHome } from "react-icons/fa";
 import type { NavigationPathProps } from "./sidebar.types";
-import { MdImportantDevices } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { HiArchiveBoxArrowDown } from "react-icons/hi2";
 import { IoTrashBin } from "react-icons/io5";
@@ -17,11 +16,11 @@ const Sidebar = () => {
       name: "Archived",
       icon: <HiArchiveBoxArrowDown className="w-6 h-6" />,
     },
-    {
-      path: "/important",
-      name: "Important",
-      icon: <MdImportantDevices className="w-6 h-6" />,
-    },
+    // {
+    //   path: "/important",
+    //   name: "Important",
+    //   icon: <MdImportantDevices className="w-6 h-6" />,
+    // },
     {
       path: "/bin",
       name: "Bin",
