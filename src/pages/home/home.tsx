@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import Card from "../../components/card/card";
 import { useNotes, type NotesContextType } from "../../context/notes-context";
 import { useToast } from "../../context/toast-context";
+import type { NotesType } from "./home.types";
 
 export type Notes = {
   title: string;
@@ -14,6 +15,8 @@ const Home = () => {
     title: "",
     description: "",
   });
+  const [normalNotes, setNormalNotes] = useState<NotesType[]>([]);
+  const [pinnedNotes, setPinnedNotes] = useState<NotesType[]>([]);
   const { state, notesDispatch }: NotesContextType = useNotes();
   const { showToast } = useToast();
 
@@ -41,6 +44,19 @@ const Home = () => {
   const handleNotesArchived = (id: string) => {
     notesDispatch({ type: "ARCHIVE_NOTE", payload: id });
   };
+
+  useEffect(() => {
+    setNormalNotes(() => {
+      return state.filter(
+        (note) => !note.isPinned && !note.isArchived && !note.isDeleted
+      );
+    });
+    setPinnedNotes(() => {
+      return state.filter(
+        (note) => note.isPinned && !note.isArchived && !note.isDeleted
+      );
+    });
+  }, [state]);
 
   return (
     <div>
@@ -72,27 +88,65 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="">
+      <div>
         <div className="p-5 flex gap-5 flex-wrap">
           {state.length == 0 ? (
             <div className="flex justify-center w-full text-gray-500">
               <h1>No notes available please add</h1>
             </div>
           ) : (
-            state.map((note) => (
-              <Card
-                id={note.id}
-                key={note.id}
-                title={note.title}
-                description={note.description}
-                handleNotesPinned={handleNotesPinned}
-                handleNotesDelete={handleNotesDelete}
-                handleNotesArchived={handleNotesArchived}
-                isPinned={note.isPinned}
-                isArchived={note.isArchived}
-                isDeleted={note.isDeleted}
-              />
-            ))
+            <div className="space-y-5">
+              <div>
+                <h2 className="text-lg font-semibold">Pinned Notes</h2>
+                <div className="ps-3 pt-2 flex gap-5 flex-wrap">
+                  {pinnedNotes.length == 0 ? (
+                    <div className="flex justify-center w-full text-gray-500">
+                      <h1>No notes available please pin</h1>
+                    </div>
+                  ) : (
+                    pinnedNotes.map((note) => (
+                      <Card
+                        id={note.id}
+                        key={note.id}
+                        title={note.title}
+                        description={note.description}
+                        handleNotesPinned={handleNotesPinned}
+                        handleNotesDelete={handleNotesDelete}
+                        handleNotesArchived={handleNotesArchived}
+                        isPinned={note.isPinned}
+                        isArchived={note.isArchived}
+                        isDeleted={note.isDeleted}
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold">Other Notes</h2>
+                <div className="ps-3 pt-2 flex gap-5 flex-wrap">
+                  {normalNotes.length == 0 ? (
+                    <div className="flex justify-center w-full text-gray-500">
+                      <h1>No notes available please add</h1>
+                    </div>
+                  ) : (
+                    normalNotes.map((note) => (
+                      <Card
+                        id={note.id}
+                        key={note.id}
+                        title={note.title}
+                        description={note.description}
+                        handleNotesPinned={handleNotesPinned}
+                        handleNotesDelete={handleNotesDelete}
+                        handleNotesArchived={handleNotesArchived}
+                        isPinned={note.isPinned}
+                        isArchived={note.isArchived}
+                        isDeleted={note.isDeleted}
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

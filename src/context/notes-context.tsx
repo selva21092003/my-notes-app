@@ -8,6 +8,9 @@ export type NotesContextType = {
     type: string;
     payload: any;
   }>;
+  handleNotesPinned: (id: string) => void;
+  handleNotesDelete: (id: string) => void;
+  handleNotesArchived: (id: string) => void;
 };
 
 export const NotesContext = createContext<NotesContextType | null>(null);
@@ -15,8 +18,25 @@ export const NotesContext = createContext<NotesContextType | null>(null);
 const NotesProvider = ({ children }: { children: ReactNode }) => {
   const initialState: NotesType[] = [];
   const [state, notesDispatch] = useReducer(notesReducers, initialState);
+  const handleNotesPinned = (id: string) => {
+    notesDispatch({ type: "PIN_NOTE", payload: id });
+  };
+  const handleNotesDelete = (id: string) => {
+    notesDispatch({ type: "DELETE_NOTE", payload: id });
+  };
+  const handleNotesArchived = (id: string) => {
+    notesDispatch({ type: "ARCHIVE_NOTE", payload: id });
+  };
   return (
-    <NotesContext.Provider value={{ state, notesDispatch }}>
+    <NotesContext.Provider
+      value={{
+        state,
+        notesDispatch,
+        handleNotesPinned,
+        handleNotesDelete,
+        handleNotesArchived,
+      }}
+    >
       {children}
     </NotesContext.Provider>
   );
